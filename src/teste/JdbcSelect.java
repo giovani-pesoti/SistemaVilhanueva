@@ -4,20 +4,19 @@
  */
 package teste;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author u06454182185
  */
-public class JdbcCrud {
-
+public class JdbcSelect {
     public static void main(String[] args) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -25,20 +24,15 @@ public class JdbcCrud {
             url = "jdbc:mysql://10.7.0.51:33062/db_marcos_vilhanueva";
             user = "marcos_vilhanueva";
             password = "marcos_vilhanueva";
-            //url = "jdbc://mysql/localhost/db_marcos_vilhanueva";
-            //user = "marcos_vilhanueva";
-            //password = "marcos_vilhanueva";
             Connection cnt;
             cnt = DriverManager.getConnection(url, user, password);
-            // 114
-            //String sql = "update mpv_usuarios set mpv_nome=?, mpv_apelido=?, mpv_cpf= ? where mpv_idusuarios= ?";
-            String sql = "delete from mpv_usuarios where mpv_idusuarios=?";
+            String sql = "select * from mpv_usuarios";
             PreparedStatement pst = cnt.prepareStatement(sql);            
-            pst.setInt(1, 214);
-//            pst.setString(1, "Giovani");
-//            pst.setString(2, "gigi");
-//            pst.setString(3, "2121456");
-            pst.executeUpdate(); 
+            ResultSet rs = pst.executeQuery();
+            if (rs.next() == true) {
+                System.out.println("id:"+rs.getInt("mpv_idusuarios"));
+                System.out.println("nome:"+rs.getString("mpv_nome"));
+            }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(JdbcCrud.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
