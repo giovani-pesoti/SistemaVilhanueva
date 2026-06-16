@@ -15,6 +15,8 @@ import javax.swing.JOptionPane;
  */
 public class JDlgMpvUsuarios extends javax.swing.JDialog {
 
+    boolean alterar = false;
+
     /**
      * Creates new form JDlgMpvUsuarios
      */
@@ -284,7 +286,24 @@ public class JDlgMpvUsuarios extends javax.swing.JDialog {
 
     private void jBtnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAlterarActionPerformed
         // TODO add your handling code here:
+        alterar=true;
         habilitar();
+        
+        int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Entre com a chave primária"));
+        
+        DaoMpvUsuarios dao = new DaoMpvUsuarios();
+        DaoMpvUsuarios usuario = (DaoMpvUsuarios) dao.list(id);
+        
+        if (usuario != null){
+            JTxtCodigo.setText(String.valueOf(usuario.getMpvIdUsuarios()));
+            jTxtNome.setText(usuario.getMpvNome());
+            jTxtApelido.setEnabled(false);
+            jFmtCPF.setEnabled(false);
+            jFmtDataNascimento.setText(null);
+            jCboNivel.setEnabled(false);
+            jPwfSenha.setEnabled(false);
+            jChbAtivo.setEnabled(false);
+        }
     }//GEN-LAST:event_jBtnAlterarActionPerformed
 
     private void jBtnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnConfirmarActionPerformed
@@ -300,13 +319,17 @@ public class JDlgMpvUsuarios extends javax.swing.JDialog {
         usuario.setMpvAtivo(jChbAtivo.isSelected() ? "S" : "N");
 
         DaoMpvUsuarios dao = new DaoMpvUsuarios();
-        if (dao.insert(usuario)) {
-            JOptionPane.showMessageDialog(this, "Usuario cadastrado com sucesso");
+        if (!alterar) {
+            if (dao.insert(usuario)) {
+                JOptionPane.showMessageDialog(this, "Usuario cadastrado com sucesso");
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao cadastrar usuario");
+            }
         } else {
-            JOptionPane.showMessageDialog(this, "Erro ao cadastrar usuario");
+            dao.update(usuario);
         }
-
-        desabilitar();
+        
+            desabilitar();
     }//GEN-LAST:event_jBtnConfirmarActionPerformed
 
     private void jBtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnExcluirActionPerformed
@@ -318,8 +341,9 @@ public class JDlgMpvUsuarios extends javax.swing.JDialog {
 
         if (usuario != null) {
             int resp = JOptionPane.showConfirmDialog(null, "Deseja Excluir", "confirma", JOptionPane.YES_NO_OPTION);
-            if (resp == JOptionPane.YES_OPTION)
+            if (resp == JOptionPane.YES_OPTION) {
                 dao.delete(id);
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Usuario não encontrado!");
         }

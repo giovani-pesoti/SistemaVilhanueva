@@ -47,7 +47,7 @@ public class DaoMpvUsuarios extends DaoAbstract {
             pst.setString(1, mpvUsuarios.getMpvNome());
             pst.setString(2, mpvUsuarios.getMpvApelido());
             pst.setString(3, mpvUsuarios.getMpvCpf());
-            pst.setDate(4,null);// java.sql.Date.valueOf(mpvUsuarios.getMpvDataNascimento()));
+            pst.setDate(4, null);// java.sql.Date.valueOf(mpvUsuarios.getMpvDataNascimento()));
             pst.setInt(5, mpvUsuarios.getMpvNivel() + 1);
             pst.setString(6, mpvUsuarios.getMpvSenha());
             pst.setString(7, mpvUsuarios.getMpvAtivo());
@@ -62,13 +62,27 @@ public class DaoMpvUsuarios extends DaoAbstract {
     @Override
     public void update(Object object) {
         MpvUsuarios mpvUsuarios = (MpvUsuarios) object;
+        String sql = "UPDATE mpv_usuarios SET mpv_nome=?, mpv_apelido"
+                + "mpv_cpf=?, mpv_dataNascimento=?, mpv_nivel=?,"
+                + "mpv_senha=?, mpv_ativo=? WHERE mpv_idusuarios=?";
+        PreparedStatement pst = cnt.prepareStatement(sql);
+        pst.setString(1, mpvUsuarios.getMpvNome());
+        pst.setString(2, mpvUsuarios.getMpvApelido());
+        pst.setString(3, mpvUsuarios.getMpvCpf());
+        pst.setDate(4, mpvUsuarios.getMpvDataNascimento());
+        pst.setInt(5, mpvUsuarios.getMpvNivel());
+        pst.setString(6, mpvUsuarios.getMpvSenha());
+        pst.setString(7, mpvUsuarios.getMpvAtivo());
+        pst.setInt(8, mpvUsuarios.getMpvIdUsuarios());
+    } catch (SQLException ex) {
+        System.getLogger(UsuarioDAO.class.getName()).log(System.Logger)
     }
 
     @Override
     public void delete(Object object) {
         MpvUsuarios usuario = (MpvUsuarios) object;
         String sql = "DELETE FROM mpv_usuarios WHERE mpv_idusuarios=?";
-        
+
         try {
             PreparedStatement smt = cnt.prepareStatement(sql);
             smt.setInt(1, usuario.getMpvIdUsuarios());
@@ -80,15 +94,27 @@ public class DaoMpvUsuarios extends DaoAbstract {
 
     @Override
     public Object list(int id) {
-        
+
         MpvUsuarios usuario = null;
         String sql = "SELECT * FROM mpv_usuarios WHERE mpv_idusuarios=?";
-        
-        try{
+
+        try {
             PreparedStatement smt = cnt.prepareStatement(sql);
             smt.setInt(1, id);
-            smt.executeUpdate();
-        } catch (SQLException ex){
+            ResultSet resp = smt.executeQuery();
+            if (resp.next()) {
+                usuario = new MpvUsuarios();
+
+                usuario.setMpvIdUsuarios(resp.getInt("mpv_idusuarios"));
+                usuario.setMpvNome(resp.getString("mpv_nome"));
+                usuario.setMpvApelido(resp.getString("mpv_apelido"));
+                usuario.setMpvCpf(resp.getString("mpv_cpf"));
+                usuario.setMpvDataNascimento(resp.getDate("mpv_dataNascimento"));
+                usuario.setMpvNivel(resp.getInt("mpv_nivel"));
+                usuario.setMpvSenha(resp.getString("mpv_senha"));
+                usuario.setMpvAtivo(resp.getString("mpv_ativo"));
+            }
+        } catch (SQLException ex) {
             return null;
         }
         return usuario;
