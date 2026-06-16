@@ -4,6 +4,9 @@
  */
 package view;
 
+import util.Conversor;
+import bean.MpvUsuarios;
+import dao.DaoMpvUsuarios;
 import javax.swing.JOptionPane;
 
 /**
@@ -31,7 +34,7 @@ public class JDlgMpvUsuarios extends javax.swing.JDialog {
         jBtnCancelar.setEnabled(false);
         jBtnConfirmar.setEnabled(false);
     }
-    
+
     public void habilitar() {
         jTxtNome.setEnabled(true);
         JTxtCodigo.setEnabled(true);
@@ -48,7 +51,7 @@ public class JDlgMpvUsuarios extends javax.swing.JDialog {
         jBtnExcluir.setEnabled(false);
         jBtnPesquisar.setEnabled(false);
     }
-    
+
     public void desabilitar() {
         jTxtNome.setEnabled(false);
         JTxtCodigo.setEnabled(false);
@@ -286,13 +289,40 @@ public class JDlgMpvUsuarios extends javax.swing.JDialog {
 
     private void jBtnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnConfirmarActionPerformed
         // TODO add your handling code here:
+        MpvUsuarios usuario = new MpvUsuarios();
+//        usuario.setMpvIdUsuarios(Integer.parseInt(JTxtCodigo.getText()));
+        usuario.setMpvNome(jTxtNome.getText());
+        usuario.setMpvApelido(jTxtApelido.getText());
+        usuario.setMpvCpf(jFmtCPF.getText());
+        usuario.setMpvDataNascimento(Conversor.TextoToDate(jFmtDataNascimento.getText()));
+        usuario.setMpvNivel(jCboNivel.getSelectedIndex());
+        usuario.setMpvSenha(new String(jPwfSenha.getPassword()));
+        usuario.setMpvAtivo(jChbAtivo.isSelected() ? "S" : "N");
+
+        DaoMpvUsuarios dao = new DaoMpvUsuarios();
+        if (dao.insert(usuario)) {
+            JOptionPane.showMessageDialog(this, "Usuario cadastrado com sucesso");
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao cadastrar usuario");
+        }
+
         desabilitar();
     }//GEN-LAST:event_jBtnConfirmarActionPerformed
 
     private void jBtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnExcluirActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showConfirmDialog(null, "Confirma exclusão do usuário ?", "Selecione a opção", JOptionPane.YES_NO_OPTION); 
-//se colocar 0 no ultimo parametro é a mesma coisa
+        int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Entre com a chave primária"));
+
+        DaoMpvUsuarios dao = new DaoMpvUsuarios();
+        MpvUsuarios usuario = (MpvUsuarios) dao.list(id);
+
+        if (usuario != null) {
+            int resp = JOptionPane.showConfirmDialog(null, "Deseja Excluir", "confirma", JOptionPane.YES_NO_OPTION);
+            if (resp == JOptionPane.YES_OPTION)
+                dao.delete(id);
+        } else {
+            JOptionPane.showMessageDialog(this, "Usuario não encontrado!");
+        }
     }//GEN-LAST:event_jBtnExcluirActionPerformed
 
     private void jBtnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPesquisarActionPerformed
