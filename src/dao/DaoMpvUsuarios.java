@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import bean.MpvUsuarios;
@@ -13,8 +9,6 @@ import java.sql.SQLException;
 import teste.JdbcCrud;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import bean.MpvUsuarios;
-import java.util.Date;
 
 public class DaoMpvUsuarios extends DaoAbstract {
 
@@ -43,11 +37,11 @@ public class DaoMpvUsuarios extends DaoAbstract {
                     + " mpv_dataNascimento, mpv_nivel, mpv_senha, mpv_ativo) "
                     + "values(?,?,?,?,?,?,?) ";
             PreparedStatement pst = cnt.prepareStatement(sql);
-//            pst.setInt(1, mpvUsuarios.getMpvIdUsuarios());
             pst.setString(1, mpvUsuarios.getMpvNome());
             pst.setString(2, mpvUsuarios.getMpvApelido());
             pst.setString(3, mpvUsuarios.getMpvCpf());
-            pst.setDate(4, null);// java.sql.Date.valueOf(mpvUsuarios.getMpvDataNascimento()));
+            pst.setDate(4, mpvUsuarios.getMpvDataNascimento() != null
+                    ? new java.sql.Date(mpvUsuarios.getMpvDataNascimento().getTime()) : null);
             pst.setInt(5, mpvUsuarios.getMpvNivel() + 1);
             pst.setString(6, mpvUsuarios.getMpvSenha());
             pst.setString(7, mpvUsuarios.getMpvAtivo());
@@ -62,20 +56,25 @@ public class DaoMpvUsuarios extends DaoAbstract {
     @Override
     public void update(Object object) {
         MpvUsuarios mpvUsuarios = (MpvUsuarios) object;
-        String sql = "UPDATE mpv_usuarios SET mpv_nome=?, mpv_apelido"
-                + "mpv_cpf=?, mpv_dataNascimento=?, mpv_nivel=?,"
+        String sql = "UPDATE mpv_usuarios SET mpv_nome=?, mpv_apelido=?, "
+                + "mpv_cpf=?, mpv_dataNascimento=?, mpv_nivel=?, "
                 + "mpv_senha=?, mpv_ativo=? WHERE mpv_idusuarios=?";
-        PreparedStatement pst = cnt.prepareStatement(sql);
-        pst.setString(1, mpvUsuarios.getMpvNome());
-        pst.setString(2, mpvUsuarios.getMpvApelido());
-        pst.setString(3, mpvUsuarios.getMpvCpf());
-        pst.setDate(4, mpvUsuarios.getMpvDataNascimento());
-        pst.setInt(5, mpvUsuarios.getMpvNivel());
-        pst.setString(6, mpvUsuarios.getMpvSenha());
-        pst.setString(7, mpvUsuarios.getMpvAtivo());
-        pst.setInt(8, mpvUsuarios.getMpvIdUsuarios());
-    } catch (SQLException ex) {
-        System.getLogger(UsuarioDAO.class.getName()).log(System.Logger)
+
+        try {
+            PreparedStatement pst = cnt.prepareStatement(sql);
+            pst.setString(1, mpvUsuarios.getMpvNome());
+            pst.setString(2, mpvUsuarios.getMpvApelido());
+            pst.setString(3, mpvUsuarios.getMpvCpf());
+            pst.setDate(4, mpvUsuarios.getMpvDataNascimento() != null
+                    ? new java.sql.Date(mpvUsuarios.getMpvDataNascimento().getTime()) : null);
+            pst.setInt(5, mpvUsuarios.getMpvNivel());
+            pst.setString(6, mpvUsuarios.getMpvSenha());
+            pst.setString(7, mpvUsuarios.getMpvAtivo());
+            pst.setInt(8, mpvUsuarios.getMpvIdUsuarios());
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DaoMpvUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
