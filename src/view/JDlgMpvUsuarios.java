@@ -286,15 +286,15 @@ public class JDlgMpvUsuarios extends javax.swing.JDialog {
 
     private void jBtnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAlterarActionPerformed
         // TODO add your handling code here:
-        alterar=true;
+        alterar = true;
         habilitar();
-        
+
         int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Entre com a chave primária"));
-        
+
         DaoMpvUsuarios dao = new DaoMpvUsuarios();
-        DaoMpvUsuarios usuario = (DaoMpvUsuarios) dao.list(id);
+        MpvUsuarios usuario = (MpvUsuarios) dao.list(id);
         
-        if (usuario != null){
+        if (usuario != null) {
             JTxtCodigo.setText(String.valueOf(usuario.getMpvIdUsuarios()));
             jTxtNome.setText(usuario.getMpvNome());
             jTxtApelido.setEnabled(false);
@@ -328,8 +328,8 @@ public class JDlgMpvUsuarios extends javax.swing.JDialog {
         } else {
             dao.update(usuario);
         }
-        
-            desabilitar();
+
+        desabilitar();
     }//GEN-LAST:event_jBtnConfirmarActionPerformed
 
     private void jBtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnExcluirActionPerformed

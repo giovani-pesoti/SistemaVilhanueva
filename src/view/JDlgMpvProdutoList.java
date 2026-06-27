@@ -13,6 +13,8 @@ import java.util.List;
  * @author Giovani
  */
 public class JDlgMpvProdutoList extends javax.swing.JDialog {
+    
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(JDlgMpvProdutoList.class.getName());
 
     private final ProdutoController controller = new ProdutoController();
     private ProdutoTableModel dadosTabela;

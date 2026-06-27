@@ -14,6 +14,8 @@ import javax.swing.JOptionPane;
  */
 public class JDlgMpvClienteList extends javax.swing.JDialog {
     
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(JDlgMpvClienteList.class.getName());
+    
     private final ClienteController controller = new ClienteController();
     private ClienteTableModel dadosTabela;
     private MpvCliente clienteSelecionado;
