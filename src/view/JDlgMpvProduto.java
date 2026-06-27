@@ -250,21 +250,13 @@ if (jTxtDescricao.getText().isBlank()) {
 
     private void jBtnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPesquisarActionPerformed
         // TODO add your handling code here:
-        String texto = JOptionPane.showInputDialog(this, "Entre com o código do produto");
-        if (texto == null || texto.isBlank()) {
-            return;
-        }
-        try {
-            int id = Integer.parseInt(texto.trim());
-            MpvProduto produto = controller.pesquisar(id);
-            if (produto != null) {
-                carregarRegistro(produto);
-            } else {
-                JOptionPane.showMessageDialog(this, "Produto não encontrado.");
-            }
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Código inválido.");
-        }
+        JDlgMpvProdutoList lista = new JDlgMpvProdutoList((java.awt.Frame) this.getParent(), true);
+    lista.setVisible(true);
+
+    MpvProduto produto = lista.getProdutoSelecionado();
+    if (produto != null) {
+        carregarRegistro(produto);
+    }
     }//GEN-LAST:event_jBtnPesquisarActionPerformed
 
     private void jBtnIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnIncluirActionPerformed

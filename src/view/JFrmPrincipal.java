@@ -33,6 +33,7 @@ public class JFrmPrincipal extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMnuUsuarios = new javax.swing.JMenuItem();
         jMnuClientes = new javax.swing.JMenuItem();
+        jMnuProdutos = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jMnuSair = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -59,7 +60,22 @@ public class JFrmPrincipal extends javax.swing.JFrame {
         jMnuClientes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMnuClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/cliente.png"))); // NOI18N
         jMnuClientes.setText("Clientes");
+        jMnuClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnuClientesActionPerformed(evt);
+            }
+        });
         jMnuCadastros.add(jMnuClientes);
+
+        jMnuProdutos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMnuProdutos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/produto.png"))); // NOI18N
+        jMnuProdutos.setText("Produtos");
+        jMnuProdutos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnuProdutosActionPerformed(evt);
+            }
+        });
+        jMnuCadastros.add(jMnuProdutos);
         jMnuCadastros.add(jSeparator2);
 
         jMnuSair.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
@@ -81,7 +97,7 @@ public class JFrmPrincipal extends javax.swing.JFrame {
         jMnuVendas.setText("Vendas");
         jMenu2.add(jMnuVendas);
 
-        jMnuCompras.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMnuCompras.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMnuCompras.setText("Compras");
         jMenu2.add(jMnuCompras);
 
@@ -113,6 +129,19 @@ public class JFrmPrincipal extends javax.swing.JFrame {
         JDlgMpvUsuarios jDlgMpvUsuarios = new JDlgMpvUsuarios(null, true);
         jDlgMpvUsuarios.setVisible(true);
     }//GEN-LAST:event_jMnuUsuariosActionPerformed
+
+    private void jMnuClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuClientesActionPerformed
+        // TODO add your handling code here:
+        JDlgMpvCliente jDlgMpvCliente = new JDlgMpvCliente(null, true);
+        jDlgMpvCliente.setVisible(true);
+    }//GEN-LAST:event_jMnuClientesActionPerformed
+
+    private void jMnuProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuProdutosActionPerformed
+        // TODO add your handling code here:
+        JDlgMpvProduto jDlgMpvProduto = new JDlgMpvProduto(null, true);
+        jDlgMpvProduto.setVisible(true);
+
+    }//GEN-LAST:event_jMnuProdutosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -155,6 +184,7 @@ public class JFrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMnuCadastros;
     private javax.swing.JMenuItem jMnuClientes;
     private javax.swing.JMenuItem jMnuCompras;
+    private javax.swing.JMenuItem jMnuProdutos;
     private javax.swing.JMenuItem jMnuSair;
     private javax.swing.JMenuItem jMnuUsuarios;
     private javax.swing.JMenuItem jMnuVendas;

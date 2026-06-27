@@ -179,9 +179,9 @@ public final class JDlgMpvCliente extends javax.swing.JDialog {
                     .addComponent(jTxtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTxtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLblEmail)
-                    .addComponent(jLblCPF))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLblCPF)
+                    .addComponent(jLblEmail))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTxtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -242,21 +242,13 @@ public final class JDlgMpvCliente extends javax.swing.JDialog {
 
     private void jBtnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPesquisarActionPerformed
         // TODO add your handling code here:
-        String texto = JOptionPane.showInputDialog(this, "Entre com o código do cliente");
-        if (texto == null || texto.isBlank()) {
-            return;
-        }
-        try {
-            int id = Integer.parseInt(texto.trim());
-            MpvCliente cliente = controller.pesquisar(id);
-            if (cliente != null) {
-                carregarRegistro(cliente);
-            } else {
-                JOptionPane.showMessageDialog(this, "Cliente não encontrado.");
-            }
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Código inválido.");
-        }
+        JDlgMpvClienteList lista = new JDlgMpvClienteList((java.awt.Frame) this.getParent(), true);
+    lista.setVisible(true);
+
+    MpvCliente cliente = lista.getClienteSelecionado();
+    if (cliente != null) {
+        carregarRegistro(cliente);
+    }
     }//GEN-LAST:event_jBtnPesquisarActionPerformed
 
     private void jBtnIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnIncluirActionPerformed
